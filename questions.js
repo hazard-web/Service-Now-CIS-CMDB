@@ -1060,5 +1060,19 @@ window.QUESTIONS = [
     options: ['Fly', 'Crawl', 'Foundation', 'Run', 'Walk'],
     answer: [3],
     explanation: 'The Run stage maps Business Service Offerings to Application Services.'
+  },
+  {
+    id: 120, type: 'single',
+    question: 'A CMDB Administrator needs to set a CI Class as a Principal Class. Which CI Class Manager tab would need to be accessed?',
+    options: ['Health > Attributes', 'Class Info > Basic Info', 'Class Info > Attributes'],
+    answer: [1],
+    explanation: 'The Principal Class check box is located on the Class Info > Basic Info tab in CI Class Manager.'
+  },
+  {
+    id: 121, type: 'single',
+    question: 'A CMDB Administrator wants to ensure that only relevant CIs from managed classes will be shown on Incident, Problem, and Change records. Which checkbox needs to be checked in the CI Class Manager to achieve this?',
+    options: ['Principal Class', 'Independent', 'Extensible', 'Main Record'],
+    answer: [0],
+    explanation: 'Checking the Principal Class checkbox in CI Class Manager limits the CI reference field on ITSM records to only that class.'
   }
 ];
