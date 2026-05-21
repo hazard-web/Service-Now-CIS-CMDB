@@ -160,15 +160,16 @@
   </div>
 </div>
 
-<!-- Hidden Netlify form (never shown, used for AJAX submission) -->
-<form name="exam-results" data-netlify="true" data-netlify-honeypot="bot-field" style="display:none;">
+<!-- Hidden Netlify form – post-processing detects this at deploy time -->
+<form name="exam-results" netlify action="/" method="POST" style="display:none;" aria-hidden="true">
   <input type="hidden" name="form-name" value="exam-results">
-  <input name="bot-field" type="hidden">
-  <input name="name" type="text">
-  <input name="score" type="text">
-  <input name="correct" type="text">
-  <input name="total" type="text">
-  <input name="date" type="text">
+  <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+  <input name="name" type="text" placeholder="Name">
+  <input name="score" type="text" placeholder="Score">
+  <input name="correct" type="text" placeholder="Correct">
+  <input name="total" type="text" placeholder="Total">
+  <input name="date" type="text" placeholder="Date">
+  <button type="submit">Submit</button>
 </form>
 
 <footer>
