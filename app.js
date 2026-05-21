@@ -11,6 +11,7 @@
     userAnswers: {},      // qid -> array (indices for single/multi) | array of selected right-side strings for match
     checked: {},          // qid -> true if revealed (practice/review)
     flagged: loadJSON('flagged', {}),  // qid -> true
+    mastery: loadJSON('mastery', {}),   // qid -> {attempts, correct, lastResult}
     optionOrder: {},      // qid -> shuffled option index map
     matchOrder: {},       // qid -> shuffled right-side choices
   };
@@ -20,6 +21,34 @@
     catch { return fallback; }
   }
   function saveJSON(key, val) { localStorage.setItem('cmdb_' + key, JSON.stringify(val)); }
+
+  // ---------- Mastery helpers ----------
+  function masteryStatus(qid) {
+    const m = state.mastery[qid];
+    if (!m || m.attempts === 0) return 'unseen';
+    return m.lastResult === 'correct' ? 'mastered' : 'weak';
+  }
+  function masteryStats() {
+    let mastered = 0, weak = 0, unseen = 0;
+    ALL.forEach(q => {
+      const s = masteryStatus(q.id);
+      if (s === 'mastered') mastered++;
+      else if (s === 'weak') weak++;
+      else unseen++;
+    });
+    return { mastered, weak, unseen, total: ALL.length };
+  }
+  function saveMastery() { saveJSON('mastery', state.mastery); }
+  function updateHomeProgress() {
+    const st = masteryStats();
+    const pct = Math.round((st.mastered / st.total) * 100);
+    $('hp-mastered').textContent = st.mastered;
+    $('hp-weak').textContent = st.weak;
+    $('hp-unseen').textContent = st.unseen;
+    $('hp-pct').textContent = pct + '%';
+    $('hp-mastered-bar').style.width = ((st.mastered / st.total) * 100) + '%';
+    $('hp-weak-bar').style.width = ((st.weak / st.total) * 100) + '%';
+  }
 
   // ---------- Init ----------
   $('q-count').textContent = ALL.length;
@@ -89,6 +118,17 @@
         return;
       }
     }
+    if (mode === 'practice') {
+      const filterEl = document.querySelector('input[name="pf"]:checked');
+      const filter = filterEl ? filterEl.value : 'all';
+      if (filter === 'weak') {
+        pool = pool.filter(q => masteryStatus(q.id) === 'weak');
+        if (!pool.length) { alert('No "Needs Work" questions yet! Practice some questions first, then come back.'); return; }
+      } else if (filter === 'unseen') {
+        pool = pool.filter(q => masteryStatus(q.id) === 'unseen');
+        if (!pool.length) { alert("You've seen all questions! Great work. Try 'Needs Work' to strengthen weak spots."); return; }
+      }
+    }
     if (mode === 'exam') { pool = shuffle(pool); pool = pool.slice(0, 90); }
 
     state.list = pool;
@@ -115,6 +155,7 @@
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     $(id).classList.add('active');
+    if (id === 'home') updateHomeProgress();
   }
 
   // ---------- Quiz rendering ----------
@@ -259,7 +300,12 @@
     } else {
       $('check-btn').style.display = '';
       $('submit-btn').style.display = 'none';
-      $('palette').classList.add('hidden');
+      if (state.mode === 'practice') {
+        $('palette').classList.remove('hidden');
+        renderPalette();
+      } else {
+        $('palette').classList.add('hidden');
+      }
       if (state.checked[q.id]) {
         revealAnswers(q);
       } else {
@@ -294,28 +340,50 @@
 
   function renderPalette() {
     const grid = $('palette-grid');
-    grid.innerHTML = state.list.map((q, i) => {
-      const answered = hasAnswer(q);
-      const flagged = !!state.flagged[q.id];
-      const current = i === state.idx;
-      const cls = [
-        'pal-btn',
-        answered ? 'answered' : '',
-        flagged ? 'flagged' : '',
-        current ? 'current' : ''
-      ].filter(Boolean).join(' ');
-      const title = `Q${i+1}${answered?' • answered':' • unanswered'}${flagged?' • flagged':''}`;
-      return `<button class="${cls}" data-i="${i}" title="${title}">${i+1}</button>`;
-    }).join('');
+    if (state.mode === 'exam') {
+      $('palette-title').textContent = 'Question Navigator';
+      $('exam-timer').style.display = '';
+      $('pal-exam-stats').style.display = '';
+      $('pal-practice-stats').style.display = 'none';
+      grid.innerHTML = state.list.map((q, i) => {
+        const answered = hasAnswer(q);
+        const flagged = !!state.flagged[q.id];
+        const current = i === state.idx;
+        const cls = ['pal-btn', answered?'answered':'', flagged?'flagged':'', current?'current':''].filter(Boolean).join(' ');
+        return `<button class="${cls}" data-i="${i}" title="Q${i+1}${answered?' • answered':' • unanswered'}${flagged?' • flagged':''}">${i+1}</button>`;
+      }).join('');
+      const answeredCount = state.list.filter(hasAnswer).length;
+      const flaggedCount = state.list.filter(q => state.flagged[q.id]).length;
+      $('pal-answered').textContent = answeredCount;
+      $('pal-unanswered').textContent = state.list.length - answeredCount;
+      $('pal-flagged').textContent = flaggedCount;
+    } else {
+      $('palette-title').textContent = 'Practice Progress';
+      $('exam-timer').style.display = 'none';
+      $('pal-exam-stats').style.display = 'none';
+      $('pal-practice-stats').style.display = '';
+      grid.innerHTML = state.list.map((q, i) => {
+        const ms = masteryStatus(q.id);
+        const flagged = !!state.flagged[q.id];
+        const current = i === state.idx;
+        const cls = ['pal-btn', ms, flagged?'flagged':'', current?'current':''].filter(Boolean).join(' ');
+        const label = {mastered:'✅ mastered', weak:'⚠️ needs work', unseen:'⬜ unseen'}[ms];
+        return `<button class="${cls}" data-i="${i}" title="Q${i+1} • ${label}${flagged?' • flagged':''}">${i+1}</button>`;
+      }).join('');
+      let mastered = 0, weak = 0, unseen = 0;
+      state.list.forEach(q => {
+        const s = masteryStatus(q.id);
+        if (s === 'mastered') mastered++;
+        else if (s === 'weak') weak++;
+        else unseen++;
+      });
+      $('pal-mastered').textContent = mastered;
+      $('pal-weak').textContent = weak;
+      $('pal-unseen').textContent = unseen;
+    }
     grid.querySelectorAll('.pal-btn').forEach(btn => {
       btn.addEventListener('click', () => jumpTo(parseInt(btn.dataset.i, 10)));
     });
-
-    const answeredCount = state.list.filter(hasAnswer).length;
-    const flaggedCount = state.list.filter(q => state.flagged[q.id]).length;
-    $('pal-answered').textContent = answeredCount;
-    $('pal-unanswered').textContent = state.list.length - answeredCount;
-    $('pal-flagged').textContent = flaggedCount;
   }
 
   function toggleFlag() {
@@ -329,8 +397,19 @@
 
   function checkCurrent() {
     const q = state.list[state.idx];
+    if (!hasAnswer(q)) { alert('Please select an answer first.'); return; }
     state.checked[q.id] = true;
     revealAnswers(q);
+    if (state.mode === 'practice' || state.mode === 'flagged') {
+      const ok = isCorrect(q);
+      const m = state.mastery[q.id] || { attempts: 0, correct: 0 };
+      m.attempts++;
+      if (ok) m.correct++;
+      m.lastResult = ok ? 'correct' : 'wrong';
+      state.mastery[q.id] = m;
+      saveMastery();
+      if (state.mode === 'practice') renderPalette();
+    }
   }
 
   function revealAnswers(q) {
@@ -434,6 +513,13 @@
       });
     });
 
+    if (state.mode === 'practice') {
+      const ms = masteryStats();
+      $('r-mastered').textContent = ms.mastered + ' / ' + ms.total;
+      $('r-mastery-wrap').style.display = '';
+    } else {
+      $('r-mastery-wrap').style.display = 'none';
+    }
     stopTimer();
     showScreen('results');
   }
@@ -490,5 +576,14 @@
   }
   function escapeAttr(s) { return escapeHtml(s); }
 
+  $('reset-progress-btn').addEventListener('click', () => {
+    if (confirm('Reset all practice progress? Your mastery tracking will be cleared.')) {
+      state.mastery = {};
+      saveMastery();
+      updateHomeProgress();
+    }
+  });
+
+  updateHomeProgress();
   updateHeader();
 })();

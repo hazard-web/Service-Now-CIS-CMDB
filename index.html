@@ -25,11 +25,36 @@
     <div class="hero">
       <h2>Master the ServiceNow CIS&#8209;CMDB Exam</h2>
       <p class="subtitle">Practice with <span id="q-count">100+</span> exam-style questions covering CSDM, CMDB Workspace, Data Manager, Health Dashboard, IRE, Service Graph Connectors, and more.</p>
+
+      <!-- Practice mastery progress -->
+      <div class="home-progress">
+        <div class="hp-header">
+          <span class="hp-label">Overall Mastery &mdash; <span id="hp-pct">0%</span></span>
+          <button class="btn ghost tiny" id="reset-progress-btn">Reset Progress</button>
+        </div>
+        <div class="hp-bar-outer">
+          <div class="hp-bar-inner">
+            <div id="hp-mastered-bar" class="hp-seg hp-seg-mastered" style="width:0%"></div>
+            <div id="hp-weak-bar" class="hp-seg hp-seg-weak" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="hp-legend">
+          <span><i class="hp-dot hp-dot-mastered"></i> Mastered <b id="hp-mastered">0</b></span>
+          <span><i class="hp-dot hp-dot-weak"></i> Needs Work <b id="hp-weak">0</b></span>
+          <span><i class="hp-dot hp-dot-unseen"></i> Unseen <b id="hp-unseen">0</b></span>
+        </div>
+      </div>
+
       <div class="mode-grid">
         <div class="mode-card" data-mode="practice">
           <div class="mode-icon">📘</div>
           <h3>Practice Mode</h3>
           <p>Instant feedback after each question. Best for learning.</p>
+          <div class="practice-opts">
+            <label><input type="radio" name="pf" value="all" checked> All</label>
+            <label><input type="radio" name="pf" value="weak"> Needs Work</label>
+            <label><input type="radio" name="pf" value="unseen"> Unseen</label>
+          </div>
           <button class="btn primary">Start Practice</button>
         </div>
         <div class="mode-card" data-mode="exam">
@@ -78,13 +103,18 @@
     <aside id="palette" class="palette hidden">
       <div class="palette-head">
         <div class="palette-head-top">
-          <strong>Question Navigator</strong>
+          <strong id="palette-title">Question Navigator</strong>
           <div id="exam-timer" class="exam-timer">&#9201; 01:30:00</div>
         </div>
-        <div class="palette-stats">
+        <div class="palette-stats" id="pal-exam-stats">
           <span><i class="sw answered"></i> Answered <b id="pal-answered">0</b></span>
           <span><i class="sw unanswered"></i> Unanswered <b id="pal-unanswered">0</b></span>
           <span><i class="sw flagged"></i> Flagged <b id="pal-flagged">0</b></span>
+        </div>
+        <div class="palette-stats" id="pal-practice-stats" style="display:none;">
+          <span><i class="sw mastered"></i> Mastered <b id="pal-mastered">0</b></span>
+          <span><i class="sw weak"></i> Needs Work <b id="pal-weak">0</b></span>
+          <span><i class="sw unseen"></i> Unseen <b id="pal-unseen">0</b></span>
         </div>
       </div>
       <div id="palette-grid" class="palette-grid"></div>
@@ -100,6 +130,7 @@
         <div class="stat"><span id="r-correct">0</span><label>Correct</label></div>
         <div class="stat"><span id="r-total">0</span><label>Total</label></div>
         <div class="stat"><span id="r-percent">0%</span><label>Score</label></div>
+        <div class="stat" id="r-mastery-wrap" style="display:none;"><span id="r-mastered">0</span><label>Mastered</label></div>
       </div>
       <div id="result-bar" class="result-bar"><div id="result-bar-fill"></div></div>
       <div class="result-actions">
