@@ -312,3 +312,44 @@ footer { text-align: center; padding: 16px; color: var(--muted); font-size: 0.85
   main { margin: 12px auto; }
   .card { padding: 18px; }
 }
+
+/* -------- Name modal -------- */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-box {
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 36px 32px 28px;
+  box-shadow: var(--shadow);
+  max-width: 420px; width: 100%;
+  text-align: center;
+}
+.modal-box h3 { margin: 0 0 8px; font-size: 1.35rem; }
+.modal-box p { margin: 0 0 20px; color: var(--muted); font-size: 0.95rem; }
+.name-input {
+  width: 100%; padding: 12px 16px;
+  font-size: 1rem; border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--bg); color: var(--text);
+  outline: none; transition: border-color .2s;
+  margin-bottom: 20px;
+}
+.name-input:focus { border-color: var(--primary); }
+.name-input.input-error { border-color: var(--wrong); animation: shake .3s ease; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.modal-actions { display: flex; gap: 12px; justify-content: center; }
+
+/* -------- Result name -------- */
+.result-name {
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--accent);
+  margin: -4px 0 12px;
+}

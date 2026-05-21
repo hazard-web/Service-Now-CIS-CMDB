@@ -14,6 +14,7 @@
     mastery: loadJSON('mastery', {}),   // qid -> {attempts, correct, lastResult}
     optionOrder: {},      // qid -> shuffled option index map
     matchOrder: {},       // qid -> shuffled right-side choices
+    examineeName: '',     // captured from name modal for exam mode
   };
 
   function loadJSON(key, fallback) {
@@ -67,7 +68,36 @@
 
   // ---------- Mode selection ----------
   document.querySelectorAll('.mode-card').forEach(card => {
-    card.addEventListener('click', () => start(card.dataset.mode));
+    card.addEventListener('click', () => {
+      if (card.dataset.mode === 'exam') {
+        showNameModal();
+      } else {
+        start(card.dataset.mode);
+      }
+    });
+  });
+
+  // ---------- Name modal ----------
+  function showNameModal() {
+    $('examinee-name').value = '';
+    $('name-modal').style.display = 'flex';
+    setTimeout(() => $('examinee-name').focus(), 50);
+  }
+  function hideNameModal() {
+    $('name-modal').style.display = 'none';
+  }
+  $('name-cancel-btn').addEventListener('click', hideNameModal);
+  $('name-confirm-btn').addEventListener('click', () => {
+    const name = $('examinee-name').value.trim();
+    if (!name) { $('examinee-name').focus(); $('examinee-name').classList.add('input-error'); return; }
+    $('examinee-name').classList.remove('input-error');
+    state.examineeName = name;
+    hideNameModal();
+    start('exam');
+  });
+  $('examinee-name').addEventListener('keydown', e => {
+    if (e.key === 'Enter') $('name-confirm-btn').click();
+    $('examinee-name').classList.remove('input-error');
   });
   // ---------- Exam timer ----------
   let timerInterval = null;
@@ -520,6 +550,16 @@
     } else {
       $('r-mastery-wrap').style.display = 'none';
     }
+
+    // Show name on results & submit to Netlify if exam mode
+    if (state.mode === 'exam' && state.examineeName) {
+      $('result-name').textContent = '👤 ' + state.examineeName;
+      $('result-name').style.display = '';
+      submitResultForm(state.examineeName, pct + '%', correct, total);
+    } else {
+      $('result-name').style.display = 'none';
+    }
+
     stopTimer();
     showScreen('results');
   }
@@ -575,6 +615,22 @@
       .replaceAll('"', '&quot;').replaceAll("'", '&#039;');
   }
   function escapeAttr(s) { return escapeHtml(s); }
+
+  // ---------- Netlify form submission ----------
+  function submitResultForm(name, score, correct, total) {
+    const date = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const body = new URLSearchParams({
+      'form-name': 'exam-results',
+      'bot-field': '',
+      name,
+      score,
+      correct: String(correct),
+      total: String(total),
+      date,
+    });
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
+      .catch(() => {}); // silent — don't break the results screen if network fails
+  }
 
   $('reset-progress-btn').addEventListener('click', () => {
     if (confirm('Reset all practice progress? Your mastery tracking will be cleared.')) {
