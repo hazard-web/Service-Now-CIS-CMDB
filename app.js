@@ -557,8 +557,7 @@
       $('result-name').style.display = '';
       submitResultForm(state.examineeName, pct + '%', correct, total);
     } else {
-      $('result-name').style.display = 'none';
-    }
+      $('result-name').style.display = 'none';      $('result-record-status').style.display = 'none';    }
 
     stopTimer();
     showScreen('results');
@@ -616,14 +615,32 @@
   }
   function escapeAttr(s) { return escapeHtml(s); }
 
-  // ---------- Netlify form submission ----------
+  // ---------- Result recording ----------
   function submitResultForm(name, score, correct, total) {
     const date = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const el = $('result-record-status');
+    el.textContent = '⏳ Recording your result...';
+    el.className = 'record-status recording';
+    el.style.display = '';
+
     fetch('/.netlify/functions/record-result', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, score, correct: String(correct), total: String(total), date }),
-    }).catch(() => {}); // silent fail — never block the results screen
+    })
+      .then(r => r.json())
+      .then(d => {
+        if (d.ok) {
+          el.textContent = '✅ Result recorded! (Issue #' + d.issue + ')';
+          el.className = 'record-status recorded';
+        } else {
+          throw new Error('not ok');
+        }
+      })
+      .catch(() => {
+        el.textContent = '⚠️ Could not record result — please screenshot your score.';
+        el.className = 'record-status record-failed';
+      });
   }
 
   $('reset-progress-btn').addEventListener('click', () => {

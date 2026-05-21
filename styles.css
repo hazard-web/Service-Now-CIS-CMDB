@@ -351,5 +351,13 @@ footer { text-align: center; padding: 16px; color: var(--muted); font-size: 0.85
 .result-name {
   font-size: 1.1rem; font-weight: 600;
   color: var(--accent);
-  margin: -4px 0 12px;
+  margin: -4px 0 4px;
 }
+.record-status {
+  font-size: 0.85rem; margin: 0 0 14px;
+  padding: 6px 14px; border-radius: 99px;
+  display: inline-block;
+}
+.record-status.recording { background: var(--border); color: var(--muted); }
+.record-status.recorded  { background: #dcfce7; color: #15803d; }
+.record-status.record-failed { background: #fef2f2; color: var(--wrong); }
