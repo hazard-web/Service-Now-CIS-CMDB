@@ -11,8 +11,6 @@
     userAnswers: {},      // qid -> array (indices for single/multi) | array of selected right-side strings for match
     checked: {},          // qid -> true if revealed (practice/review)
     flagged: loadJSON('flagged', {}),  // qid -> true
-    shuffleQ: true,
-    shuffleO: true,
     optionOrder: {},      // qid -> shuffled option index map
     matchOrder: {},       // qid -> shuffled right-side choices
   };
@@ -42,8 +40,38 @@
   document.querySelectorAll('.mode-card').forEach(card => {
     card.addEventListener('click', () => start(card.dataset.mode));
   });
-  $('shuffle-toggle').addEventListener('change', e => state.shuffleQ = e.target.checked);
-  $('shuffle-options-toggle').addEventListener('change', e => state.shuffleO = e.target.checked);
+  // ---------- Exam timer ----------
+  let timerInterval = null;
+  let timerSeconds = 0;
+
+  function startTimer() {
+    timerSeconds = 90 * 60;
+    updateTimerDisplay();
+    $('exam-timer').classList.remove('timer-warning');
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      updateTimerDisplay();
+      if (timerSeconds <= 300) $('exam-timer').classList.add('timer-warning');
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        alert('Time is up! Your exam is being submitted.');
+        finish();
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    $('exam-timer').classList.remove('timer-warning');
+  }
+
+  function updateTimerDisplay() {
+    const h = Math.floor(timerSeconds / 3600);
+    const m = Math.floor((timerSeconds % 3600) / 60);
+    const s = timerSeconds % 60;
+    $('exam-timer').textContent = '\u23F1 ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }
 
   function start(mode) {
     state.mode = mode;
@@ -61,28 +89,25 @@
         return;
       }
     }
-    if (state.shuffleQ && mode !== 'review') pool = shuffle(pool);
-    if (mode === 'exam') pool = pool.slice(0, Math.min(90, pool.length));
+    if (mode === 'exam') { pool = shuffle(pool); pool = pool.slice(0, 90); }
 
     state.list = pool;
 
     // Prebuild shuffled option order for each question
+    const doShuffle = mode === 'exam';
     state.list.forEach(q => {
       if (q.type === 'match') {
-        if (state.shuffleO) {
-          state.matchOrder[q.id] = shuffle(q.options.map(o => o.right));
-        } else {
-          state.matchOrder[q.id] = q.options.map(o => o.right);
-        }
-      } else {
-        if (state.shuffleO && q.options) {
-          state.optionOrder[q.id] = shuffle(q.options.map((_, i) => i));
-        } else if (q.options) {
-          state.optionOrder[q.id] = q.options.map((_, i) => i);
-        }
+        state.matchOrder[q.id] = doShuffle
+          ? shuffle(q.options.map(o => o.right))
+          : q.options.map(o => o.right);
+      } else if (q.options) {
+        state.optionOrder[q.id] = doShuffle
+          ? shuffle(q.options.map((_, i) => i))
+          : q.options.map((_, i) => i);
       }
     });
 
+    if (mode === 'exam') startTimer(); else stopTimer();
     showScreen('quiz');
     render();
   }
@@ -99,6 +124,7 @@
   $('submit-btn').addEventListener('click', submitExam);
   $('quit-btn').addEventListener('click', () => {
     if (confirm('Quit and return home? Progress for this session will be lost.')) {
+      stopTimer();
       showScreen('home');
       updateHeader();
     }
@@ -408,6 +434,7 @@
       });
     });
 
+    stopTimer();
     showScreen('results');
   }
 

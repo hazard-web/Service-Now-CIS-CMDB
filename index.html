@@ -51,10 +51,7 @@
           <button class="btn primary">Open Flagged</button>
         </div>
       </div>
-      <div class="meta">
-        <label><input type="checkbox" id="shuffle-toggle" checked> Shuffle questions</label>
-        <label><input type="checkbox" id="shuffle-options-toggle" checked> Shuffle answer choices</label>
-      </div>
+
     </div>
   </section>
 
@@ -80,7 +77,10 @@
     <!-- Exam-mode question palette -->
     <aside id="palette" class="palette hidden">
       <div class="palette-head">
-        <strong>Question Navigator</strong>
+        <div class="palette-head-top">
+          <strong>Question Navigator</strong>
+          <div id="exam-timer" class="exam-timer">&#9201; 01:30:00</div>
+        </div>
         <div class="palette-stats">
           <span><i class="sw answered"></i> Answered <b id="pal-answered">0</b></span>
           <span><i class="sw unanswered"></i> Unanswered <b id="pal-unanswered">0</b></span>
