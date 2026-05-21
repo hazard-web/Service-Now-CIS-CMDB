@@ -3,3 +3,6 @@
 __pycache__/
 *.log
 nohup.out
+
+# Local Netlify folder
+.netlify
