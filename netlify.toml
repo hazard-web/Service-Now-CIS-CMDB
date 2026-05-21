@@ -1,6 +1,7 @@
 [build]
   command   = "echo 'static site — no build step'"
   publish   = "."
+  functions = "netlify/functions"
 
 [build.processing]
   skip_processing = false

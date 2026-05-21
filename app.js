@@ -619,17 +619,11 @@
   // ---------- Netlify form submission ----------
   function submitResultForm(name, score, correct, total) {
     const date = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-    const body = new URLSearchParams({
-      'form-name': 'exam-results',
-      'bot-field': '',
-      name,
-      score,
-      correct: String(correct),
-      total: String(total),
-      date,
-    });
-    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
-      .catch(() => {}); // silent — don't break the results screen if network fails
+    fetch('/.netlify/functions/record-result', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, score, correct: String(correct), total: String(total), date }),
+    }).catch(() => {}); // silent fail — never block the results screen
   }
 
   $('reset-progress-btn').addEventListener('click', () => {
