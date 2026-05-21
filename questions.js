@@ -449,7 +449,7 @@ window.QUESTIONS = [
       'Use a Service Mapping Query to find all incidents related to the database',
       'Use a CMDB Query to include application services and their related infrastructure'
     ],
-    answer: [2, 3]
+    answer: [0, 3]
   },
   {
     id: 52, type: 'single',
@@ -546,9 +546,10 @@ window.QUESTIONS = [
   },
   {
     id: 63, type: 'single',
-    question: 'In which CSDM stage is using Technology Management Offerings to populate the support group of associated CIs performed?',
-    options: ['Service Consumption (Sell/Consume)', 'Service Delivery (Manage Technical Services)', 'Design and Planning (Design)', 'Build and Integration (Build)', 'Foundation'],
-    answer: [1]
+    question: 'The ITSM Manager wants to use Technology Management Offerings (Technical Service Offerings) to populate the support group of associated CIs. What CSDM stage would this be completed in?',
+    options: ['Crawl', 'Run', 'Fly', 'Walk', 'Foundation'],
+    answer: [3],
+    explanation: 'Walk stage is where Technology Management Offerings are used to populate support groups on CIs.'
   },
   {
     id: 64, type: 'single',
@@ -643,7 +644,8 @@ window.QUESTIONS = [
       'Any Scheduled Jobs for the SCCM Service Graph Connector will need to be configured',
       'Any updates for the SCCM Service Graph Connector will be skipped during the upgrade'
     ],
-    answer: [1]
+    answer: [2],
+    explanation: 'Customizing a Service Graph Connector means future upgrades will skip those customized parts.'
   },
   {
     id: 75, type: 'single',
@@ -820,9 +822,10 @@ window.QUESTIONS = [
   },
   {
     id: 95, type: 'multi',
-    question: 'Which group values are automatically synchronized on CIs using Technology Management Offerings (Technical Service Offerings) and dynamic CI groups? (Choose 2)',
-    options: ['Change group', 'CMDB group', 'Approval group', 'Support group'],
-    answer: [0, 3]
+    question: 'Which Groups are synced to CIs from a Technology Management Service Offering (Technical Service Offering) that has a relationship to a Dynamic CI Group? (Choose 2)',
+    options: ['Approval Group', 'Managed by Group', 'Support Group', 'Owned by Group'],
+    answer: [1, 2],
+    explanation: 'Managed by Group and Support Group are automatically synced from the Technical Service Offering to the member CIs.'
   },
   {
     id: 96, type: 'single',
@@ -904,5 +907,158 @@ window.QUESTIONS = [
       'Utilize the Duplicate CI Remediator Wizard'
     ],
     answer: [1]
+  },
+
+  // Questions from revised answers PDF (correct answers confirmed)
+  {
+    id: 105, type: 'single',
+    question: 'The CMDB Administrator wants to leverage the Staleness metric from the CMDB Health Dashboard - Correctness Scorecard. Which field is used to calculate the duration of this metric?',
+    options: [
+      'Last modified on (last_modified)',
+      'Created (sys_created_on)',
+      'Updated (sys_updated_on)',
+      'First discovered (first_discovered)',
+      'Most recent discovery (last_discovery)'
+    ],
+    answer: [2],
+    explanation: 'Staleness is measured using the sys_updated_on (Updated) field.'
+  },
+  {
+    id: 106, type: 'single',
+    question: 'When integrating data into the CMDB using import sets and transform maps, which type of script is added to ensure the data is processed through the IRE?',
+    options: ['onComplete', 'onBefore', 'onStart', 'onAfter'],
+    answer: [1],
+    explanation: 'An onBefore script in the transform map ensures data is processed through the Identification and Reconciliation Engine.'
+  },
+  {
+    id: 107, type: 'multi',
+    question: 'Reconciliation Rules were configured for ServiceNow, Altiris, and SCCM. Which are true? (Choose 2)',
+    options: [
+      'Data collected with a discovery source of ServiceNow can insert new records but cannot update records created by Altiris or SCCM',
+      'Data collected with a discovery source of Altiris can update records inserted by SCCM into the Windows Server table',
+      'Data collected with a discovery source of SCCM can be inserted as new records in the Windows Server table',
+      'Data collected with SCCM can update any record because it has the highest priority number'
+    ],
+    answer: [1, 2]
+  },
+  {
+    id: 108, type: 'single',
+    question: 'Yesterday, an Apache Web Server CI was discovered via Service Mapping. Today, the application owner upgraded Apache to a different version and reran discovery. What will happen in the CMDB?',
+    options: [
+      'A new Apache Web Server CI is created',
+      'The Apache Web Server CI will be reclassified as a Web Server CI',
+      'The existing Apache Web Server CI will be reconciled and its version will be updated',
+      'A duplication error will occur'
+    ],
+    answer: [0],
+    explanation: 'Because the version changed, the identifier no longer matches the existing CI, so a new CI is created.'
+  },
+  {
+    id: 109, type: 'match',
+    question: 'A new ServiceNow customer is assembling a Configuration Management team. Drag each role to its corresponding job description.',
+    options: [
+      { left: 'Has read-only access to CMDB data and basic user interface such as CMDB reports and dashboards', right: 'CI Analyst' },
+      { left: 'Accountable for managing all elements that make up a portfolio throughout their entire lifecycle', right: 'Service or Product Owner' },
+      { left: 'Manages assigned CI tables and keeps records updated and resolves tasks related to CMDB records', right: 'Configuration Manager/CMDB Admin' },
+      { left: 'Obtains highest level role for CMDB privileges', right: 'CMDB Process Owner' }
+    ]
+  },
+  {
+    id: 110, type: 'single',
+    question: 'A healthcare provider faces a critical incident affecting its patient management system and needs to determine impacted users. Which CSDM-related data should they leverage?',
+    options: [
+      'Service Offerings by Department or Location',
+      'Affected CI [task_ci] related list',
+      'Application Service environment attribute',
+      'Incident history of similar CIs'
+    ],
+    answer: [0],
+    explanation: 'Service Offerings by Department or Location identifies which users/groups are impacted by the incident.'
+  },
+  {
+    id: 111, type: 'multi',
+    question: 'Which "Dynamic Rule Types" are available within the "Create Reconciliation Rule" wizard in CMDB 360/Multisource CMDB? (Choose 2)',
+    options: ['Most Reported', 'Last Created', 'Last Updated', 'Smallest Value'],
+    answer: [0, 3],
+    explanation: 'Dynamic Reconciliation Rule types include Most Reported and Smallest Value.'
+  },
+  {
+    id: 112, type: 'single',
+    question: 'The CMDB Administrator group aims to display meaningful results on the CMDB Health Dashboard Compliance Scorecard for server records that are not on the latest patch. What must be configured?',
+    options: [
+      'Technical Service Offerings, Dynamic CI Groups, CMDB Groups',
+      'Certification Filter, Certification Template, Audit',
+      'Stale, Orphan, Duplicate',
+      'Certification Policies, Data Filters, Scheduled Jobs'
+    ],
+    answer: [1],
+    explanation: 'A Certification Filter, Certification Template, and Audit are required to configure CMDB Health Dashboard Compliance Scorecard metrics.'
+  },
+  {
+    id: 113, type: 'single',
+    question: 'Which is a purpose or requirement of CMDB Data Manager in ServiceNow?',
+    options: [
+      'Automates the enforcement of relationship rules between CIs in the CMDB',
+      'Encrypts archived records for enhanced security',
+      'Automates the archival and deletion of records based on retention policies'
+    ],
+    answer: [2],
+    explanation: 'CMDB Data Manager automates lifecycle management including archival and deletion based on configured retention policies.'
+  },
+  {
+    id: 114, type: 'multi',
+    question: 'A CMDB Administrator wants to run the "Services Have Owners Identified" playbook on the CMDB Data Foundations Dashboard. Which remediation plays would be used? (Choose 2)',
+    options: ['Fix Data', 'Govern Data', 'Report Data', 'Analyze Data'],
+    answer: [0, 3],
+    explanation: 'Fix Data and Analyze Data are the plays used in the Services Have Owners Identified playbook.'
+  },
+  {
+    id: 115, type: 'single',
+    question: 'Which use case requires Information Objects in CSDM?',
+    options: [
+      'Event Operations team wants to automate events into incidents for operational actions',
+      'Asset Management team wants to understand the asset life cycle compliancy in a Business Application context',
+      'SecOps team wants to understand the operational risk in the Business Application context',
+      'Business Service Management team wants to understand operational impact for consumer parties',
+      'Customer Service team wants to onboard pro-active case management'
+    ],
+    answer: [2],
+    explanation: 'Information Objects represent data exchanged between applications and are needed for SecOps operational risk context in Business Applications.'
+  },
+  {
+    id: 116, type: 'multi',
+    question: 'A CMDB Administrator is considering using the playbooks provided on the CMDB Data Foundation Dashboard. What are the benefits? (Choose 2)',
+    options: [
+      'Offers insight into the downstream impacts of poorly performing metrics',
+      'Offers remediation templates to improve poorly performing metrics',
+      'Offers remediation options to address and improve poorly performing metrics',
+      'Offers automated scripts to resolve poorly performing metrics'
+    ],
+    answer: [0, 2]
+  },
+  {
+    id: 117, type: 'multi',
+    question: 'A Windows administration team wants a grouping of CIs using CMDB groups. Which methods can be used? (Choose 2)',
+    options: ['Tag-based queries', 'Encoded queries', 'Scripted queries', 'Saved queries'],
+    answer: [1, 3],
+    explanation: 'CMDB Groups support Encoded queries and Saved queries for dynamic CI grouping.'
+  },
+  {
+    id: 118, type: 'single',
+    question: 'A CMDB Architect intends to populate the CMDB using the CSDM guidance. Which key stakeholders should be involved in decisions regarding CMDB population using the CSDM Crawl Stage?',
+    options: [
+      'Business Service Manager, Technology Service Owner',
+      'Application Owner, Application Service Owner',
+      'Customer Service Manager, Infrastructure Manager'
+    ],
+    answer: [1],
+    explanation: 'The Crawl stage focuses on Application Services, so Application Owner and Application Service Owner are the key stakeholders.'
+  },
+  {
+    id: 119, type: 'single',
+    question: 'A Service Portfolio Manager wants to know what Application Services their Business Service Offerings depend on. What stage of CSDM would map this relationship?',
+    options: ['Fly', 'Crawl', 'Foundation', 'Run', 'Walk'],
+    answer: [3],
+    explanation: 'The Run stage maps Business Service Offerings to Application Services.'
   }
 ];
