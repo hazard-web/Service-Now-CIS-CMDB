@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceNow CIS-CMDB Practice Quiz</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="dot"></span>
+    <h1>CIS&#8209;CMDB Practice</h1>
+  </div>
+  <div class="header-stats">
+    <span id="progress-text">0 / 0</span>
+    <span id="score-text">Score: 0</span>
+    <button id="theme-toggle" title="Toggle theme">🌙</button>
+  </div>
+</header>
+
+<main>
+  <!-- Home / mode selection -->
+  <section id="home" class="screen active">
+    <div class="hero">
+      <h2>Master the ServiceNow CIS&#8209;CMDB Exam</h2>
+      <p class="subtitle">Practice with <span id="q-count">100+</span> exam-style questions covering CSDM, CMDB Workspace, Data Manager, Health Dashboard, IRE, Service Graph Connectors, and more.</p>
+      <div class="mode-grid">
+        <div class="mode-card" data-mode="practice">
+          <div class="mode-icon">📘</div>
+          <h3>Practice Mode</h3>
+          <p>Instant feedback after each question. Best for learning.</p>
+          <button class="btn primary">Start Practice</button>
+        </div>
+        <div class="mode-card" data-mode="exam">
+          <div class="mode-icon">🎯</div>
+          <h3>Exam Mode</h3>
+          <p>90 questions • 75% to pass • no feedback until the end. Mimics the real exam.</p>
+          <button class="btn primary">Start Exam</button>
+        </div>
+        <div class="mode-card" data-mode="review">
+          <div class="mode-icon">📋</div>
+          <h3>Review All</h3>
+          <p>Browse every question with answers and explanations.</p>
+          <button class="btn primary">Review</button>
+        </div>
+        <div class="mode-card" data-mode="flagged">
+          <div class="mode-icon">🚩</div>
+          <h3>Flagged Only</h3>
+          <p>Revisit questions you marked for review.</p>
+          <button class="btn primary">Open Flagged</button>
+        </div>
+      </div>
+      <div class="meta">
+        <label><input type="checkbox" id="shuffle-toggle" checked> Shuffle questions</label>
+        <label><input type="checkbox" id="shuffle-options-toggle" checked> Shuffle answer choices</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz screen -->
+  <section id="quiz" class="screen">
+    <div class="quiz-top">
+      <button class="btn ghost" id="quit-btn">← Quit</button>
+      <div class="progress-bar"><div id="progress-fill"></div></div>
+      <button class="btn ghost" id="flag-btn">🚩 Flag</button>
+    </div>
+
+    <article id="question-card" class="card"></article>
+
+    <div class="quiz-nav">
+      <button class="btn" id="prev-btn">Previous</button>
+      <button class="btn primary" id="check-btn">Check Answer</button>
+      <button class="btn primary" id="next-btn">Next →</button>
+      <button class="btn primary" id="submit-btn" style="display:none;">Submit Exam ✓</button>
+    </div>
+
+    <div id="feedback" class="feedback hidden"></div>
+
+    <!-- Exam-mode question palette -->
+    <aside id="palette" class="palette hidden">
+      <div class="palette-head">
+        <strong>Question Navigator</strong>
+        <div class="palette-stats">
+          <span><i class="sw answered"></i> Answered <b id="pal-answered">0</b></span>
+          <span><i class="sw unanswered"></i> Unanswered <b id="pal-unanswered">0</b></span>
+          <span><i class="sw flagged"></i> Flagged <b id="pal-flagged">0</b></span>
+        </div>
+      </div>
+      <div id="palette-grid" class="palette-grid"></div>
+    </aside>
+  </section>
+
+  <!-- Results screen -->
+  <section id="results" class="screen">
+    <div class="result-card">
+      <div id="result-emoji">🎉</div>
+      <h2 id="result-title">Quiz complete!</h2>
+      <div class="result-stats">
+        <div class="stat"><span id="r-correct">0</span><label>Correct</label></div>
+        <div class="stat"><span id="r-total">0</span><label>Total</label></div>
+        <div class="stat"><span id="r-percent">0%</span><label>Score</label></div>
+      </div>
+      <div id="result-bar" class="result-bar"><div id="result-bar-fill"></div></div>
+      <div class="result-actions">
+        <button class="btn primary" id="retry-btn">Try Again</button>
+        <button class="btn" id="review-wrong-btn">Review Wrong</button>
+        <button class="btn ghost" id="back-home-btn">Home</button>
+      </div>
+      <details id="result-breakdown">
+        <summary>Question-by-question breakdown</summary>
+        <ol id="result-list"></ol>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <small>Study companion for the ServiceNow Certified Implementation Specialist – CMDB exam. Unofficial.</small>
+</footer>
+
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
