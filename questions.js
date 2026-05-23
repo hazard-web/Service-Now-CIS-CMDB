@@ -1418,7 +1418,7 @@ window.QUESTIONS = [
   {
     id: 156, type: 'match',
     question: 'A CMDB Owner starts on the CSDM journey and needs to become familiar with the CSDM domains. Match the CMDB objects to the correct CSDM domains.',
-    pairs: [
+    options: [
       { left: 'Business Application', right: 'Design and Planning domain' },
       { left: 'Business Process', right: 'Foundation domain' },
       { left: 'Business Service', right: 'Sell / Consume domain' }
@@ -1446,7 +1446,7 @@ window.QUESTIONS = [
   {
     id: 159, type: 'match',
     question: 'A manufacturing organization has implemented Incident Management in ServiceNow and wants to integrate additional products to enhance its functionality. Match each ServiceNow product to the value it brings to supporting Incident Management.',
-    pairs: [
+    options: [
       { left: 'Hardware Asset Management', right: 'Delivers asset actions and events for the management and maintenance of assets during incidents' },
       { left: 'Risk Management', right: 'Supplies critical IT and financial risk data, enabling assessment of the broader impact of incidents on business operations' },
       { left: 'Discovery', right: 'Offers detailed operational-level data on hardware and applications to improve incident resolution' },
