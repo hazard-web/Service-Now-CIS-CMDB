@@ -1074,5 +1074,225 @@ window.QUESTIONS = [
     options: ['Principal Class', 'Independent', 'Extensible', 'Main Record'],
     answer: [0],
     explanation: 'Checking the Principal Class checkbox in CI Class Manager limits the CI reference field on ITSM records to only that class.'
+  },
+
+  // Additional questions from full 98-page CIS-CMDB Data Foundation 2 PDF
+  {
+    id: 122, type: 'single',
+    question: 'A Configuration Management team has decided to start taking advantage of the CMDB 360/Multisource CMDB functionality. Which system property must be enabled?',
+    options: [
+      'glide.identification_engine.multisource_enabled',
+      'glide.identification_engine.multisource.query.max.limit',
+      'glide.identification_engine.multisource_cmdb_ci_enabled',
+      'glide.identification_engine.multisource_non_cmdb_ci_enabled'
+    ],
+    answer: [0],
+    explanation: 'The system property glide.identification_engine.multisource_enabled must be enabled to activate CMDB 360 / Multisource CMDB functionality.'
+  },
+  {
+    id: 123, type: 'single',
+    question: 'A CMDB Administrator is managing group data from both the CI Class Manager and a Technical Service Offering for a specific class. CI Class Manager has Managed by Group = Enterprise IT Services. Technical Service Offering has Managed by Group = Windows Support and Change Group = Change Management Team. What would be the Managed By Group for CIs from this class based on the configured values?',
+    options: ['Enterprise IT Services', 'Change Management Team', 'Windows Support'],
+    answer: [2],
+    explanation: 'Values from the Technical Service Offering take precedence over CI Class Manager defaults, so the Managed By Group resolves to Windows Support.'
+  },
+  {
+    id: 124, type: 'single',
+    question: 'A CMDB Administrator has imported data into the ServiceNow CMDB from a third-party source using a Service Graph Connector. The Administrator wants to review specific field to field mappings for the import. Which feature will show that information?',
+    options: ['Integration Hub', 'CMDB Integrations Dashboard', 'IntegrationHub ETL'],
+    answer: [2],
+    explanation: 'IntegrationHub ETL provides the field-to-field mapping details for Service Graph Connector imports into the CMDB.'
+  },
+  {
+    id: 125, type: 'single',
+    question: 'A CMDB Administrator wants to configure IRE rules for the CMDB. The CMDB Administrator opens CI Class Manager and sees the Health Inclusion Rules tab available under a CI Class. How are these rules utilized by the IRE?',
+    options: [
+      'To narrow the scope of CIs included in the identification process',
+      'To reduce the data ingested into the CMDB',
+      'To reconcile specific attributes based on data sources'
+    ],
+    answer: [0],
+    explanation: 'Health Inclusion Rules narrow the scope of CIs included in the IRE identification process.'
+  },
+  {
+    id: 126, type: 'single',
+    question: 'Two new CI records are imported into the hardware class of the CMDB. CI1: The name of this CI record matches the name of an existing CI record in the CMDB. CI2: The IP address of this CI record matches the IP address of an existing CI record in the CMDB. Which is correct based on the identification rule and the imported CI records?',
+    options: [
+      'CI1 and CI2 both will be updated with matching records',
+      'CI1 will be updated with matching record and CI2 will be inserted as new record',
+      'CI1 will be inserted as new record and CI2 will be updated with matching record',
+      'CI1 and CI2 both will be inserted as new records'
+    ],
+    answer: [1],
+    explanation: 'The hardware class identification rule uses name (not IP) as an identifier, so CI1 (name match) is updated and CI2 (only IP match) is inserted as new.'
+  },
+  {
+    id: 127, type: 'single',
+    question: 'A CMDB Administrator is considering whether to start using the playbooks provided on the CMDB Data Foundation Dashboard. What are the benefits to support the decision to leverage this feature?',
+    options: [
+      'Offers insight into the downstream impacts of poorly performing metrics',
+      'Offers remediation templates to improve poorly performing metrics',
+      'Offers remediation options to address and improve poorly performing metrics',
+      'Offers automated scripts to resolve poorly performing metrics'
+    ],
+    answer: [2],
+    explanation: 'CMDB Data Foundation Dashboard playbooks offer remediation options to address and improve poorly performing metrics.'
+  },
+  {
+    id: 128, type: 'single',
+    question: 'A CMDB Administrator is reviewing the health of the CMDB and notices a large percentage of the Hardware CIs are missing serial numbers. What structured guidelines provided by ServiceNow are available to troubleshoot and resolve the issue?',
+    options: [
+      'CSDM Now Create Playbooks',
+      'CMDB Data Foundations Dashboard Playbooks',
+      'CMDB Health Dashboard Playbooks',
+      'CSDM Data Foundations Dashboard Playbooks'
+    ],
+    answer: [2],
+    explanation: 'CMDB Health Dashboard Playbooks provide structured guidelines to troubleshoot and resolve CMDB health issues such as missing serial numbers.'
+  },
+  {
+    id: 129, type: 'single',
+    question: 'A health organization must track certain data (for example, regulated patient information) and its relation to Business Applications. Which action does CSDM recommend to meet this goal?',
+    options: [
+      'Work with the Database administration team to classify the data on each database that holds patient information, and use Relationships to map that back to the Business Application',
+      'Create fields on the Business Application record to mark the Business Application as containing patient information, and ask the Business Application owner to mark the application accordingly',
+      'Create an Information Object to represent the patient information, and link it through a relationship to the Business Application'
+    ],
+    answer: [2],
+    explanation: 'CSDM recommends creating an Information Object to represent regulated data and linking it via relationship to the Business Application.'
+  },
+  {
+    id: 130, type: 'multi',
+    question: 'ServiceNow Event Management significantly benefits from a well-maintained and properly populated CMDB. What are key advantages it provides to Event Management? (Choose 2)',
+    options: [
+      'Mapped services provide visibility to users consuming the service',
+      'Binding of alerts to specific CIs',
+      'Correlation of alerts to knowledge base articles',
+      'Mapped services provide visibility to the business impact of an alert'
+    ],
+    answer: [1, 3],
+    explanation: 'A well-populated CMDB enables binding alerts to specific CIs and provides visibility to the business impact of alerts through mapped services.'
+  },
+  {
+    id: 131, type: 'single',
+    question: 'A data center has many servers. The CMDB Administrator wants to confirm that all servers exist. Which Data Manager policy type does the Administrator implement?',
+    options: ['Promotion', 'Verification', 'Attestation', 'Certification'],
+    answer: [3],
+    explanation: 'A Certification policy in Data Manager is used to confirm/attest that CI records continue to exist and are accurate.'
+  },
+  {
+    id: 132, type: 'single',
+    question: 'A Configuration Manager is managing a CI class in the CMDB. The identification rule(s) needs an update. Where can the Configuration Manager view and configure the existing identification rule(s) for the class?',
+    options: ['API Integrations', 'IRE Application', 'CI Class Manager', 'CI Identifiers module'],
+    answer: [2],
+    explanation: 'CI Class Manager is the single pane of glass to view and configure identification rules for a CI class.'
+  },
+  {
+    id: 133, type: 'single',
+    question: 'A Platform Owner is collaborating with stakeholders in the manufacturing industry to align their CIs with the CSDM framework. They need to map production line monitoring systems to the appropriate CSDM domain. Which CSDM 5 domain does the Platform Owner use?',
+    options: [
+      'Service Delivery (Manage Technical)',
+      'Foundation',
+      'Build and Integration (Build)',
+      'Service Consumption (Sell/Consume)',
+      'Design and Planning (Design)'
+    ],
+    answer: [0],
+    explanation: 'Production line monitoring systems align to the Service Delivery (Manage Technical) domain of CSDM.'
+  },
+  {
+    id: 134, type: 'single',
+    question: 'A Configuration Manager is planning the implementation of the CMDB. Which is the prescribed CSDM rollout order?',
+    options: [
+      'Initiate, Plan, Execute, Deliver, Close',
+      'Architecture, Business, Technical, Governance',
+      'Foundation, Crawl, Walk, Run, Fly',
+      'Initial, Developing, Defined, Managed'
+    ],
+    answer: [2],
+    explanation: 'The prescribed CSDM rollout order is Foundation, Crawl, Walk, Run, Fly.'
+  },
+  {
+    id: 135, type: 'single',
+    question: 'A CMDB Manager wants to improve data quality using the CMDB Health Dashboard. What needs to happen to generate CMDB health scores?',
+    options: [
+      'The scheduled jobs for the CMDB Health Dashboard must be activated',
+      'Nothing, CMDB health scores are calculated by default',
+      'The plugin, CMDB health calculation, needs to be installed'
+    ],
+    answer: [0],
+    explanation: 'CMDB health scores are produced only after the scheduled jobs for the CMDB Health Dashboard are activated.'
+  },
+  {
+    id: 136, type: 'single',
+    question: 'A Change Manager wants to gain value from CSDM. How will the Change Management process benefit from CSDM?',
+    options: [
+      'Determine the root cause of the change issue',
+      'Identify blackout windows for the change',
+      'Understand the impact of the change on services',
+      'Route the change dynamically'
+    ],
+    answer: [2],
+    explanation: 'CSDM provides the service mapping context that enables Change Management to understand the impact of a change on services.'
+  },
+  {
+    id: 137, type: 'single',
+    question: "A development team is working on a project and an application will be deployed to many servers. There will be several security requirements that need to be checked to adhere to lawful regulatory compliance because the application will be holding customer personal data (PII and PCI). Where in the CSDM does the development team look to store the information that will be used to satisfy the audits?",
+    options: [
+      'Customer Service Offerings and Databases',
+      'Business Applications and Information Objects',
+      'Technology Management Service Offerings (Technical Service Offerings) and Dynamic CI Groups'
+    ],
+    answer: [1],
+    explanation: 'Business Applications and Information Objects are the CSDM elements used to store regulatory/audit information such as PII and PCI.'
+  },
+  {
+    id: 138, type: 'multi',
+    question: 'A CMDB Administrator is evaluating whether to monitor the metrics provided on the CMDB Data Foundation Dashboard. Which benefits support the decision to continually monitor the results on this dashboard? (Choose 2)',
+    options: [
+      'Provides metrics for CIs Processed by the IRE',
+      'Reports on all orphan CIs in the CMDB',
+      'Provides metrics on active CIs updated in the last 90 days',
+      'Provides a list of all CIs that failed health audits'
+    ],
+    answer: [0, 2],
+    explanation: 'The CMDB Data Foundation Dashboard provides metrics for CIs processed by the IRE and active CIs updated in the last 90 days.'
+  },
+  {
+    id: 139, type: 'single',
+    question: 'A Configuration Manager wants to use the Unified Map. Where would it be accessed?',
+    options: ['CI Class Manager', 'CMDB Workspace', 'CMDB Data Manager'],
+    answer: [1],
+    explanation: 'The Unified Map is accessed from the CMDB Workspace.'
+  },
+  {
+    id: 140, type: 'single',
+    question: 'According to the Common Service Data Model (CSDM), a server team is requesting a catalog item be created for infrastructure upgrade requests. Which role is involved in initiating the request and defining requirements?',
+    options: ['Enterprise Architect', 'Application Service Owners', 'Technology Service Owners'],
+    answer: [2],
+    explanation: 'Technology Service Owners initiate infrastructure-related catalog requests and define the requirements per CSDM.'
+  },
+  {
+    id: 141, type: 'single',
+    question: "A customer's CMDB is aligned to the CSDM Walk stage. What benefit is provided by the CMDB?",
+    options: [
+      "Allows for additional stratification of Technical team's support structure along the lines of OLAs and commitments",
+      'Improves the implementation velocity of APM Foundation for future business application rationalization',
+      'Enables impact assessments for incident, problem, and change on Business Services'
+    ],
+    answer: [2],
+    explanation: 'At the Walk stage, the CMDB enables impact assessments for incident, problem, and change on Business Services.'
+  },
+  {
+    id: 142, type: 'multi',
+    question: 'Which are business values of CMDB? (Choose 2)',
+    options: [
+      'Collecting and managing financial data',
+      'Streamlining incident and change management',
+      'Strengthening operational resiliency',
+      'Automating maintenance for CI relationships'
+    ],
+    answer: [1, 2],
+    explanation: 'Key business values of the CMDB include streamlining incident and change management and strengthening operational resiliency.'
   }
 ];
