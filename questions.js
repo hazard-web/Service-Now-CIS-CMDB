@@ -1178,7 +1178,7 @@ window.QUESTIONS = [
     question: 'A data center has many servers. The CMDB Administrator wants to confirm that all servers exist. Which Data Manager policy type does the Administrator implement?',
     options: ['Promotion', 'Verification', 'Attestation', 'Certification'],
     answer: [3],
-    explanation: 'A Certification policy in Data Manager is used to confirm/attest that CI records continue to exist and are accurate.'
+    explanation: 'A Certification policy in CMDB Data Manager is used to confirm that CI records continue to exist and are accurate.'
   },
   {
     id: 132, type: 'single',
@@ -1716,5 +1716,15 @@ window.QUESTIONS = [
     options: ['Owned by Group', 'Managed by Group', 'Approval Group', 'Support Group'],
     answer: [1, 3],
     explanation: 'Managed by Group and Support Group are synced from the Technical Service Offering through a Dynamic CI Group to member CIs.'
+  },
+  {
+    id: 189, type: 'match',
+    question: 'Some steps need to be taken to transition from using different status attributes in the CMDB to life cycle objects. Drag and drop the objects/attributes to the description.',
+    options: [
+      { left: 'This table is pre-populated with mappings for legacy status values, based on its table, to the best-fit CSDM life-cycle value pair', right: 'life_cycle_mapping' },
+      { left: 'This is a record attribute that reflects a meta-level state of the record\'s life cycle', right: 'life_cycle_stage' },
+      { left: 'This is a record attribute that reflects a sub-level state of the record\'s life cycle', right: 'life_cycle_stage_status' },
+      { left: 'This table uses the type of CI (hardware, document, logical, etc.) to determine which sub-level life cycle state values are available', right: 'life_cycle_object' }
+    ]
   }
 ];

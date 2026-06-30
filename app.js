@@ -513,11 +513,11 @@
     const PASS = 75;
     const passed = pct >= PASS;
     let emoji, title;
-    if (pct < 50) { emoji = '📚'; title = 'Bhai padhai kar le, ServiceNow tujhe dekh ke ro raha hai 😭'; }
-    else if (pct < PASS) { emoji = '💪'; title = 'Itne paas aake bhi door reh gaya 🥲 - thoda aur dimaag laga, 75% chahiye boss!'; }
-    else if (pct < 85) { emoji = '✅'; title = 'Pass ho gaya bhai! 🎉 Sambhal ke, abhi certificate door hai par raasta sahi hai.'; }
-    else if (pct < 95) { emoji = '🏅'; title = 'Wah ustaad wah! 🔥 CMDB ka Shahrukh Khan ban gaya tu.'; }
-    else { emoji = '🏆'; title = 'OYE HOYE! 🤯 Tu toh ServiceNow ka damaad nikla - seedha Bansal sir se shaadi karwa do!'; }
+    if (pct < 50) { emoji = '📚'; title = 'Keep studying - you\'re not there yet.'; }
+    else if (pct < PASS) { emoji = '💪'; title = `Close, but not quite. You need ${PASS}% to pass - review and try again.`; }
+    else if (pct < 85) { emoji = '✅'; title = 'You passed! 🎉 Solid result - a bit more prep and you\'re exam-ready.'; }
+    else if (pct < 95) { emoji = '🏅'; title = 'Great score! 🔥 Strong CMDB knowledge - well done.'; }
+    else { emoji = '🏆'; title = 'Outstanding! 🤯 Exam-ready performance - go get that certification!'; }
     $('result-emoji').textContent = emoji;
     $('result-title').textContent = title;
 
