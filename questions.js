@@ -1177,8 +1177,8 @@ window.QUESTIONS = [
     id: 131, type: 'single',
     question: 'A data center has many servers. The CMDB Administrator wants to confirm that all servers exist. Which Data Manager policy type does the Administrator implement?',
     options: ['Promotion', 'Verification', 'Attestation', 'Certification'],
-    answer: [3],
-    explanation: 'A Certification policy in CMDB Data Manager is used to confirm that CI records continue to exist and are accurate.'
+    answer: [2],
+    explanation: 'An Attestation policy in CMDB Data Manager creates tasks to confirm that CI records continue to exist.'
   },
   {
     id: 132, type: 'single',
