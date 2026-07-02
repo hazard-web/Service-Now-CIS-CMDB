@@ -19,9 +19,9 @@ window.QUESTIONS = [
     question: 'Drag and drop the application-service / discovery type to the best description.',
     options: [
       { left: 'Recommended for mission-critical application services that require a precise approach using patterns', right: 'Service Mapping (Top-down)' },
-      { left: 'Best fit to map cloud-native, container-based, virtual machine environments', right: 'Service Mapping (Connection Suggestion)' },
+      { left: 'Best fit to map cloud-native, container-based, virtual machine environments', right: 'Tag-Based' },
       { left: 'Logical grouping of CIs based on a filter / tag', right: 'Dynamic CI Group' },
-      { left: 'Identifies services through resource tagging', right: 'Tag-Based' }
+      { left: 'Identifies services through resource tagging', right: 'Service Mapping (Connection Suggestion)' }
     ]
   },
   {
