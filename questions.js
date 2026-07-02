@@ -578,10 +578,10 @@ window.QUESTIONS = [
     id: 67, type: 'match',
     question: 'Match each CSDM Governance domain to the roles that make up the governance team.',
     options: [
-      { left: 'Service Owner(s), Platform Owner', right: 'Foundation Domain' },
-      { left: 'Technology Service Owner(s), Application Service Owner(s), Platform Owner', right: 'Portfolio Domain' },
+      { left: 'Service Owner(s), Platform Owner', right: 'Portfolio Domain' },
+      { left: 'Technology Service Owner(s), Application Service Owner(s), Platform Owner', right: 'Technical Domain' },
       { left: 'Enterprise Architect(s), Platform Owner', right: 'Design Domain' },
-      { left: 'Enterprise Architect(s), Data Steward(s), Process Owner(s)', right: 'Technical Domain' }
+      { left: 'Enterprise Architect(s), Data Steward(s), Process Owner(s)', right: 'Foundation Domain' }
     ]
   },
   {
@@ -957,10 +957,10 @@ window.QUESTIONS = [
     id: 109, type: 'match',
     question: 'A new ServiceNow customer is assembling a Configuration Management team. Drag each role to its corresponding job description.',
     options: [
-      { left: 'Has read-only access to CMDB data and basic user interface such as CMDB reports and dashboards', right: 'CI Analyst' },
+      { left: 'Has read-only access to CMDB data and basic user interface such as CMDB reports and dashboards', right: 'CMDB Process Owner' },
       { left: 'Accountable for managing all elements that make up a portfolio throughout their entire lifecycle', right: 'Service or Product Owner' },
-      { left: 'Manages assigned CI tables and keeps records updated and resolves tasks related to CMDB records', right: 'Configuration Manager/CMDB Admin' },
-      { left: 'Obtains highest level role for CMDB privileges', right: 'CMDB Process Owner' }
+      { left: 'Manages assigned CI tables and keeps records updated and resolves tasks related to CMDB records', right: 'CI Analyst' },
+      { left: 'Obtains highest level role for CMDB privileges', right: 'Configuration Manager/CMDB Admin' }
     ]
   },
   {
@@ -1147,8 +1147,8 @@ window.QUESTIONS = [
       'CMDB Health Dashboard Playbooks',
       'CSDM Data Foundations Dashboard Playbooks'
     ],
-    answer: [2],
-    explanation: 'CMDB Health Dashboard Playbooks provide structured guidelines to troubleshoot and resolve CMDB health issues such as missing serial numbers.'
+    answer: [1],
+    explanation: 'CMDB Data Foundations Dashboard Playbooks provide structured guidelines to troubleshoot and resolve data quality issues such as missing serial numbers.'
   },
   {
     id: 129, type: 'single',
